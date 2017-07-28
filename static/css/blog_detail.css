@@ -1,0 +1,31 @@
+.blog-details {
+    /*居中显示*/
+    width: 600px;
+    margin: 0 auto;
+}
+/*播客内容*/
+.blog-details-main {
+    margin-bottom: 20px;
+    border: 1px solid black;
+    /**/
+    padding: 0 5px;
+}
+.blog-details-title {
+    /*标题居中显示*/
+    width:200px;
+    display: block;
+    margin: 0 auto;
+    /*字体*/
+    line-height: 38px;
+    font-size: 26px;
+    font-weight: bold;
+}
+.blog-details-content{
+    color: rgb(68, 68, 68);
+}
+/*评论*/
+.comment-Podcast {
+    border: 1px solid black;
+    padding: 0 5px;
+    margin-bottom: 2px;
+}
