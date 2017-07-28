@@ -1,6 +1,6 @@
 # ndoe-express博客程序
-![](blog_index.png)
-![](blog_detail.png)
+![](show/blog_index.png)
+![](show/blog_detail.png)
 ```
 使用下面的功能实现博客程序
 node
