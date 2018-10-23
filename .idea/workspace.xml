@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5429525e-b74c-4c90-a823-18b26049fcbd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/list.js" afterPath="$PROJECT_DIR$/model/list.js" />
     </list>
     <ignored path="blog.iws" />
@@ -102,10 +101,10 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-316" />
-    <option name="y" value="47" />
-    <option name="width" value="1690" />
-    <option name="height" value="920" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1456" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -220,15 +219,15 @@
       <workItem from="1540192999738" duration="6916000" />
       <workItem from="1540208172626" duration="81000" />
       <workItem from="1540208650417" duration="1338000" />
-      <workItem from="1540309452554" duration="421000" />
+      <workItem from="1540309452554" duration="973000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8756000" />
+    <option name="totallyTimeSpent" value="9308000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-316" y="47" width="1690" height="920" extended-state="1" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11051374" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

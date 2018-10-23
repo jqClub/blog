@@ -38,7 +38,6 @@ console.log('成功了');
     // console.log(result);
 });
 
-
 var fs = require('fs')
 
 
