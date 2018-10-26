@@ -35,6 +35,7 @@ var b = {
     // data: loadData()
 }
 
+//這个是取所有的对象
 b.all = function() {
         log('进入了all函数')
     //這里返回一个promise对象，可以链式的调用。
@@ -42,7 +43,7 @@ b.all = function() {
     var p = new Promise(function(resolve, reject){
         userModel.find({}, function(err, data){
             if(err){ return console.log(err) }
-            log(222222, data)
+            // log(222222, data)
             resolve(data)
         })
     });
@@ -50,32 +51,35 @@ b.all = function() {
     // // return this.data
 }
 
+//這个是新增的函数
 b.new = function(form) {
+    var that = this
     var m = new ModelComment(form)
-    var newUser = new userModel(m)
-    // userModel.find({}, function(err, rdata){
-    //     if(err){ return console.log(err) }
-    //
-    //     var len = rdata.length
-    //     // // 设置新数据的 id
-    //     var d = rdata[len-1]
-    //     log(999999, d)
-    //     if (d == undefined) {
-    //         oneData.id = 1
-    //     } else {
-    //         oneData.id = d.id + 1
-    //     }
-    //     log(222222, oneData)
-    //     resolve(oneData)
-    // })
 
     var p = new Promise(function(resolve, reject){
-        newUser.save(function(err, data){
-            if(err){ return console.log(err) }
-            resolve(data)
+        that.all().then(function(data) {
+            // log(22222, data.length)
+            // // 设置新数据的 id
+            var d = data[data.length-1] || {}
+            log(1111, d)
+            if (!d.id) {
+                m.id = 1
+            } else {
+                m.id = d.id + 1
+            }
+
+            var newUser = new userModel(m)
+            newUser.save(function(err, data){
+                if(err){ return console.log(err) }
+
+
+                resolve(data)
+            })
         })
     });
     return p
+
+
     // var m = new ModelComment(form)
     // // 设置新数据的 id
     // var d = this.data[this.data.length-1]
@@ -92,17 +96,59 @@ b.new = function(form) {
     // return m
 }
 
-b.save = function() {
-    var newUser = new userModel({
-        username: 'jq',
-        email: '1220561194@qq.com'
+b.save = function(from) {
+    var id = from.id
+    var reulst = {
+        id: id
+    }
+
+    var p = new Promise(function(resolve, reject) {
+        userModel.findOne(reulst, function (err, data) {
+            // log(222222, data)
+            if (err) {
+                return console.log(err);
+            }
+            data.username = from.username;
+            data.save(function (err) {
+                log(111111, data)
+                resolve(data)
+                // res.redirect('/users/list');
+            })
+        })
     })
-    newUser.save(function(err, data){
-        if(err){ return console.log(err) }
-        log(333, data)
-        response.send(data)
-        // res.redirect('/users/list');
+    return p
+    // var s = JSON.stringify(this.data, null, 2)
+    // fs.writeFile(filePath, s, (err) => {
+    //   if (err) {
+    //       console.log(err)
+    //   } else {
+    //       console.log('保存成功')
+    //   }
+    // })
+}
+
+b.remove = function(from) {
+    var id = from.id
+    var reulst = {
+        id: id
+    }
+
+    var p = new Promise(function(resolve, reject) {
+        userModel.remove(reulst, function (err, data) {
+            // log(222222, data)
+            if (err) {
+                return console.log(err);
+            }
+            resolve(data)
+            // data.username = from.username;
+            // data.save(function (err) {
+            //     log(111111, data)
+            //     resolve(data)
+            //     // res.redirect('/users/list');
+            // })
+        })
     })
+    return p
     // var s = JSON.stringify(this.data, null, 2)
     // fs.writeFile(filePath, s, (err) => {
     //   if (err) {
