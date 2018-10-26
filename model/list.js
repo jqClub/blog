@@ -1,45 +1,9 @@
-const db = require('../util/db.js');
-// var whereStr = {"name":'菜鸟工具'};  // 查询条件
-// var updateStr = {$set: { "url" : "https://www.99999.com" }};
-// db.updateMany('runoob', whereStr, updateStr, (err,result)=>{
-//     if(err){
-//         console.log('数据查找失败！');
-//         return;
-//     };
-// console.log('成功了');
-//     // console.log(result);
-// });
+var log = console.log.bind(console)
 
-// db.getAllCount('runoob',(err,result)=>{
-//     if(err){
-//         console.log('数据查找失败！');
-//         return;
-//     };
-//     console.log(result);
-// });
-
-
-// db.find('runoob',{},{},(err,result)=>{
-//     if(err){
-//         console.log('数据查找失败！');
-//         return;
-//     };
-//     console.log(result);
-// });
-
-
-var myquery = {"name":'菜鸟工具'};  // 查询条件
-db.deleteMany('runoob', myquery, (err,result)=>{
-    // if(err){
-    //     console.log('数据查找失败！');
-    //     return;
-    // };
-console.log('成功了');
-    // console.log(result);
-});
+var userModel = require('../util/userModel.js');
+userModel = userModel.name
 
 var fs = require('fs')
-
 
 var filePath = 'db/comment.json'
 
@@ -65,11 +29,23 @@ const loadData = function() {
 
 
 var b = {
-    data: loadData()
+    // data: loadData()
 }
 
 b.all = function() {
-    return this.data
+        log('进入了all函数')
+    //這里返回一个promise对象，可以链式的调用。
+    //也可以直接使用回调函数
+    var p = new Promise(function(resolve, reject){
+        userModel.find({}, function(err, data){
+            if(err){ return console.log(err) }
+            log(222222, data)
+            resolve(data)
+        })
+    });
+    return p
+
+    // return this.data
 }
 
 b.new = function(form) {
@@ -90,14 +66,24 @@ b.new = function(form) {
 }
 
 b.save = function() {
-    var s = JSON.stringify(this.data, null, 2)
-    fs.writeFile(filePath, s, (err) => {
-      if (err) {
-          console.log(err)
-      } else {
-          console.log('保存成功')
-      }
+    var newUser = new userModel({
+        username: 'jq',
+        email: '1220561194@qq.com'
     })
+    newUser.save(function(err, data){
+        if(err){ return console.log(err) }
+        log(333, data)
+        response.send(data)
+        // res.redirect('/users/list');
+    })
+    // var s = JSON.stringify(this.data, null, 2)
+    // fs.writeFile(filePath, s, (err) => {
+    //   if (err) {
+    //       console.log(err)
+    //   } else {
+    //       console.log('保存成功')
+    //   }
+    // })
 }
 
 // 导出一个对象的时候用 module.exports = 对象 的方式

@@ -23,3 +23,10 @@ node appBlog.js
 //////////////////////////////////////////////
 //	@author: 姜奇 (604799292@qq.com)
 //	@version: 1.0.0.1 2018.10.22 新增mongodb模块，可以实现查找，增加，删除，修改内容
+              1.0.0.2 2018.10.25 安装Mongoose，来使用mongodb
+
+//////////////////////////////////////////////
+备注：
+1.Mongoose操作schema时默认表名添加s以及解决
+module.exports = mongoose.model('Page',userSchema,"name");
+

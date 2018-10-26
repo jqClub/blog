@@ -52,9 +52,31 @@ registerRoutes(app, routeList.routes)
 // 默认的端口是 80
 // 所以如果你监听 80 端口的话，浏览器就不需要输入端口了
 // 但是 1024 以下的端口是系统保留端口，需要管理员权限才能使用
-var server = app.listen(8083, function () {
+var server = app.listen(8084, function () {
   var host = server.address().address
   var port = server.address().port
 
   console.log("应用实例，访问地址为 http://%s:%s", host, port)
 })
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+//10.25新增，使用mongoose
+// connectData是选择链接的那个数据库
+var connectData = 'vip'
+// app.js
+var mongoose = require('mongoose');
+var dburl = "mongodb://127.0.0.1:27017/" + connectData
+mongoose.connect(dburl)     //连接本地数据库blog
+
+var db = mongoose.connection;
+
+// 连接成功
+db.on('open', function(){
+    console.log('MongoDB Connection Successed');
+});
+// 连接失败
+db.on('error', function(){
+    console.log('MongoDB Connection Error');
+});
