@@ -5,7 +5,10 @@ var Schema = mongoose.Schema;
 // 声明一个数据集 对象
 var userSchema = new Schema({
     username: String,
-    email: String
+    email: String,
+    blog_id: Number,
+    created_time: String,
+    id: Number,
 });
 // 将数据模型暴露出去
 // module.exports = mongoose.model('name', userSchema);
