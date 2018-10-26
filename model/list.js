@@ -103,7 +103,12 @@ b.save = function(from) {
     }
 
     var p = new Promise(function(resolve, reject) {
-        userModel.findOne(reulst, function (err, data) {
+        userModel.find(reulst, function (err, data) {
+            data = data[0]
+            if(!data) {
+                resolve({})
+                return
+            }
             // log(222222, data)
             if (err) {
                 return console.log(err);
