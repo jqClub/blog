@@ -3,6 +3,9 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 
+var cors = require('cors')
+app.use(cors());
+
 app.use(bodyParser.json())
 
 // 配置静态文件目录
@@ -41,6 +44,18 @@ registerRoutes(app, routeBlog.routes)
 // 导入 route/comment 的所有路由数据
 const routeComment = require('./route/comment')
 registerRoutes(app, routeComment.routes)
+
+
+// //设置跨域访问(添加这段)
+// app.all('*', function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+//     res.header("X-Powered-By",' 3.2.1')
+//     res.header("Content-Type", "application/json;charset=utf-8");
+//     next();
+// });
+
 
 
 // 导入 route/comment 的所有路由数据

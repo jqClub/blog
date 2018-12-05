@@ -1,6 +1,6 @@
 // ../ 表示上一级目录
 const blog = require('../model/blog')
-
+var log = console.log.bind(console)
 
 var all = {
     path: '/api/blog/all',

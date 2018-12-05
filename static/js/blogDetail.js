@@ -12,6 +12,7 @@ var ajax = function(request) {
     if (request.contentType !== undefined) {
         r.setRequestHeader('Content-Type', request.contentType)
     }
+
     r.onreadystatechange = function(event) {
         if(r.readyState === 4) {
             request.callback(r.response)
