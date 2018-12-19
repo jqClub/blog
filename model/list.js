@@ -148,23 +148,28 @@ b.remove = function(from) {
                 return console.log(err);
             }
             resolve(data)
-            // data.username = from.username;
-            // data.save(function (err) {
-            //     log(111111, data)
-            //     resolve(data)
-            //     // res.redirect('/users/list');
-            // })
         })
     })
     return p
-    // var s = JSON.stringify(this.data, null, 2)
-    // fs.writeFile(filePath, s, (err) => {
-    //   if (err) {
-    //       console.log(err)
-    //   } else {
-    //       console.log('保存成功')
-    //   }
-    // })
+}
+
+
+//12.19新增，一个获取相应的数据id
+b.find = function(data) {
+    log('进入了find函数', data)
+    //這里返回一个promise对象，可以链式的调用。
+    //也可以直接使用回调函数
+    var p = new Promise(function(resolve, reject){
+        userModel.find({
+            id: data.id,
+        }, function(err, data){
+            if(err){ return console.log(err) }
+            // log(222222, data)
+            resolve(data)
+        })
+    });
+    return p
+    // // return this.data
 }
 
 // 导出一个对象的时候用 module.exports = 对象 的方式
