@@ -153,23 +153,27 @@ b.remove = function(from) {
     return p
 }
 
-
+// -----------------------------------------------
 //12.19新增，一个获取相应的数据id
-b.find = function(data) {
-    log('进入了find函数', data)
+b.find = function(getData) {
+    log('进入了find函数', getData)
     //這里返回一个promise对象，可以链式的调用。
     //也可以直接使用回调函数
     var p = new Promise(function(resolve, reject){
-        userModel.find({
-            id: data.id,
-        }, function(err, data){
+        var uid = getData.uid
+        var findData = {}
+        if(getData.uid) {
+            findData= {
+                // id: data.id,
+                blog_id: uid,
+            }
+        }
+        userModel.find(findData, function(err, data){
             if(err){ return console.log(err) }
-            // log(222222, data)
             resolve(data)
         })
     });
     return p
-    // // return this.data
 }
 
 // 导出一个对象的时候用 module.exports = 对象 的方式

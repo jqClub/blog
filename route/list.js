@@ -98,11 +98,12 @@ var addError = {
     func: function(request, response) {
         // 浏览器发过来的数据我们一般称之为 form (表单)
         var form = request.body
-        var errorMsg = form.e
+        var errorMsg = form.e || ''
+        var uid = form.uid || ''
         var data = comment.new({
             author: 'jq',
             content: '1220561194@qq.com',
-            blog_id: '2',
+            blog_id: uid,
             errorMsg: errorMsg,
         })
         data.then(function(comments) {
@@ -150,11 +151,34 @@ var find = {
         var query = request.query
         var data = comment.find(query)
         data.then(function(comments) {
-            log(2222222, comments)
+            //12.19新增添加时间的函数
+            comments = addCjuu(comments)
+
             var r = JSON.stringify(comments)
             response.send(r)
         })
     }
+}
+
+//12.19新增添加时间的函数
+var addCjuu = function(arr) {
+    arr = arr || []
+    log(1111, arr)
+    for(var i = 0; i < arr.length; i++) {
+        var arrChild = arr[i]
+        log(7777, arrChild)
+        var created_time = arr[i].created_time
+        log(22222, created_time)
+        var timeUnit = getLocalTime(created_time)
+        log(999, typeof arrChild)
+        arrChild.timeUnit = timeUnit
+        log(666, arrChild)
+    }
+    return arr
+}
+function getLocalTime(nS) {
+    var dataTime = new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+    return dataTime
 }
 
 var routes = [
