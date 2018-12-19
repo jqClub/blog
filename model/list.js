@@ -3,6 +3,7 @@ var log = console.log.bind(console)
 var userModel = require('../util/userModel.js');
 userModel = userModel.name
 
+
 var fs = require('fs')
 
 var filePath = 'db/comment.json'
@@ -20,6 +21,8 @@ const ModelComment = function(form) {
     this.blog_id = Number(form.blog_id || 0)
     // 生成一个 unix 时间, unix 时间是什么, 上课会说
     this.created_time = Math.floor(new Date() / 1000)
+    //12.19新增一个字段，然后上传过去
+    this.errorMsg = form.errorMsg || ''
 }
 
 const loadData = function() {
@@ -55,13 +58,13 @@ b.all = function() {
 b.new = function(form) {
     var that = this
     var m = new ModelComment(form)
+    // log(99999, m)
 
     var p = new Promise(function(resolve, reject){
         that.all().then(function(data) {
-            // log(22222, data.length)
             // // 设置新数据的 id
             var d = data[data.length-1] || {}
-            log(1111, d)
+            // log(1111, d)
             if (!d.id) {
                 m.id = 1
             } else {
@@ -69,6 +72,7 @@ b.new = function(form) {
             }
 
             var newUser = new userModel(m)
+            // log(888888, newUser)
             newUser.save(function(err, data){
                 if(err){ return console.log(err) }
 
@@ -78,7 +82,6 @@ b.new = function(form) {
         })
     });
     return p
-
 
     // var m = new ModelComment(form)
     // // 设置新数据的 id
@@ -163,7 +166,6 @@ b.remove = function(from) {
     //   }
     // })
 }
-
 
 // 导出一个对象的时候用 module.exports = 对象 的方式
 // 这样引用的时候就可以直接把模块当这个对象来用了(具体看使用方法)
