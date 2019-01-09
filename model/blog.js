@@ -1,8 +1,6 @@
 var fs = require('fs')
 
-
 var blogFilePath = 'db/blog.json'
-
 
 // 这是一个用来存储 Blog 数据的对象
 const ModelBlog = function(form) {
