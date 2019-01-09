@@ -1,3 +1,4 @@
+var log = console.log.bind(console)
 // 引入 express 并且创建一个 express 实例赋值给 app
 var express = require('express')
 var app = express()
@@ -10,7 +11,6 @@ app.use(bodyParser.json())
 
 // 配置静态文件目录
 app.use(express.static('static'))
-
 
 const registerRoutes = function(app, routes) {
     for (var i = 0; i < routes.length; i++) {
@@ -95,3 +95,7 @@ db.on('open', function(){
 db.on('error', function(){
     console.log('MongoDB Connection Error');
 });
+
+// 19.1.9新增——用来请求接口，并写入json文件
+const apiData = require('./model/apiData')
+apiData.new()

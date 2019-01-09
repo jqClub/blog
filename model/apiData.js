@@ -1,6 +1,10 @@
+var log = console.log.bind(console)
+// 19.1.9新增——用来请求接口，并写入json文件
 var fs = require('fs')
 
-var blogFilePath = 'db/blog.json'
+var request = require('request');
+
+var blogFilePath = 'db/apiData.json'
 
 // 这是一个用来存储 Blog 数据的对象
 const ModelBlog = function(form) {
@@ -33,22 +37,56 @@ var b = {
     data: loadBlogs()
 }
 
-b.new = function(form) {
-    var m = new ModelBlog(form)
-    // console.log('new blog', form, m)
-    // 设置新数据的 id
-    var d = this.data[this.data.length-1]
-    if (d == undefined) {
-        m.id = 1
-    } else {
-        m.id = d.id + 1
+var url = 'https://app.unjs.com/app_phpv2/newyearlot/index.php?act=xncq&app=xncq&t=2'
+//设置需请求的次数
+var time = 100
+//初始请求的index（从1请求到到100）
+var index = 1
+var result = b.data  //所有的结果
+var ids = []  //所有的id（如果不存在，才写入result）
+var getIds = function() {
+    for(var i = 0; i < result.length; i++) {
+        var id = result[i].id
+        ids.push(id)
     }
-    // 把 数据 加入 this.data 数组
-    this.data.push(m)
-    // 把 最新数据 保存到文件中
-    this.save()
-    // 返回新建的数据
-    return m
+}
+getIds()
+//思路：1.循环去请求，成功index+1，然后在回调里去执行下一次请求
+// 2.先用一个数组全部存起来
+// 3.写入json文件
+
+b.new = function() {
+    log(index)
+    var that = this
+    //超过上限，不去请求
+    if(index > time) {
+        that.data = result
+        // 把 最新数据 保存到文件中
+        that.save()
+        return
+    }
+
+    getAjax({
+        url,
+        successFun: function(body) {
+            var errno = body.errno
+            if(errno == 0) {
+                //    说明请求成功了
+                var list = body.list
+                if(ids.indexOf(list.id) > -1) {
+                    index += 1
+                    that.new()
+                    return
+                }
+                //存到结果里面去
+                ids.push(list.id)
+                result.push(list)
+
+                index += 1
+                that.new()
+            }
+        },
+    })
 }
 
 
@@ -62,6 +100,51 @@ b.save = function() {
     }
 })
 }
+
+
+//写2个请求,get和post请求
+//参考：https://blog.csdn.net/dreamer2020/article/details/52074516
+//https://www.jianshu.com/p/a156729ce499
+var getAjax = function(obj) {
+    request(obj.url, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            // console.log(body) // Show the HTML for the baidu homepage.
+            body = JSON.parse(body)  //这里返回的是string，所以需要先转对象
+            if(typeof obj.successFun == 'function') {
+                obj.successFun(body)
+            }
+        }
+    })
+}
+
+var postAjax = function(obj) {
+    request({
+        url: obj.url,
+        method: "POST",
+        // json: true,
+        json: obj.data,
+        headers: {
+            "content-type": "application/json",
+        },
+        // body: JSON.stringify(obj.data)
+    }, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            if(typeof obj.successFun == 'function') {
+                obj.successFun(body)
+            }
+        }
+    });
+}
+//例子
+// postAjax({
+//     url: 'https://easy-mock.com/mock/5c05f3b4119ec9640d826f40/example/upload',
+//     data: {
+//         "a": "1"
+//     },
+//     successFun: function(body) {
+//         log(body.data)
+//     },
+// })
 
 // 导出一个对象的时候用 module.exports = 对象 的方式
 // 这样引用的时候就可以直接把模块当这个对象来用了(具体看使用方法)
